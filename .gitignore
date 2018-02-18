@@ -1,0 +1,8 @@
+*.iml
+.idea/*
+wp-data/*
+docker-compose.yml
+init_db.sql
+wp-data/wp-content/*
+!wp-data/wp-content/themes
+!wp-data/wp-content/plugins
