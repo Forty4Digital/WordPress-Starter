@@ -20,7 +20,7 @@ echo "Generating WordPress site."
 echo "Answer the following questions or press enter to use the default settings."
 echo ''
 
-echo -n "Project Name (\"${WORKDIR//-/}\"): "
+echo -n "Project Name (${WORKDIR//-/}): "
 read PROJECTNAME
 PROJECTNAME="${PROJECTNAME:="${WORKDIR//-/}"}"
 
@@ -35,35 +35,35 @@ echo -n "Production URL (http://somesite.com): "
 read PRODURL
 PRODURL="${PRODURL:="http://somesite.com"}"
 
-echo -n "RDS Endpoint (\"${DEFAULTRDSENDPOINT}\"): "
+echo -n "RDS Endpoint (${DEFAULTRDSENDPOINT}): "
 read RDSENDPOINT
 RDSENDPOINT="${RDSENDPOINT:="${DEFAULTRDSENDPOINT}"}"
 
-echo -n "EC2 Public DNS (\"${DEFAULTPUBLICDNS}\"): "
+echo -n "EC2 Public DNS (${DEFAULTPUBLICDNS}): "
 read PUBLICDNS
 PUBLICDNS="${PUBLICDNS:="${DEFAULTPUBLICDNS}"}"
 
-echo -n "Git Repo (\"${DEFAULTREPO}\"): "
+echo -n "Git Repo (${DEFAULTREPO}): "
 read REPO
 REPO="${REPO:="${DEFAULTREPO}"}"
 
-echo -n "Site Title (\"${PROJECTNAME}\"): "
+echo -n "Site Title (${PROJECTNAME}): "
 read SITETITLE
 SITETITLE="${SITETITLE:="${PROJECTNAME}"}"
 
-echo -n "Database Name ("${DEFAULTDATABASENAME}"): "
+echo -n "Database Name (${DEFAULTDATABASENAME}): "
 read DATABASENAME
 DATABASENAME="${DATABASENAME:="${DEFAULTDATABASENAME}"}"
 
-echo -n "MySQL User ("${DEFAULTMYSQLUSER}"): "
+echo -n "MySQL User (${DEFAULTMYSQLUSER}): "
 read MYSQLUSER
-MYSQLUSER="${MYSQLUSER:="${DEFAULTMYSQLUSER}"}"
+MYSQLUSER="${MYSQLUSER:=${DEFAULTMYSQLUSER}}"
 
-echo -n "MySQL Password ("${DEFAULTMYSQLPASSWORD}"): "
+echo -n "MySQL Password (${DEFAULTMYSQLPASSWORD}): "
 read MYSQLPASSWORD
 MYSQLPASSWORD="${MYSQLPASSWORD:="${DEFAULTMYSQLPASSWORD}"}"
 
-echo -n "MySQL root Password ("${DEFAULTMYSQLROOTPASSWORD}"): "
+echo -n "MySQL root Password (${DEFAULTMYSQLROOTPASSWORD}): "
 read MYSQLROOTPASSWORD
 MYSQLROOTPASSWORD="${MYSQLROOTPASSWORD:="${DEFAULTMYSQLROOTPASSWORD}"}"
 
@@ -97,6 +97,8 @@ case "$choice" in
   ;;
 esac
 
+# check if db volume exists, and prompt user to erase and continue, or quit.
+
 cat > project.conf << EOF1
 #! /bin/bash
 
@@ -119,16 +121,16 @@ EOF1
 
 echo "project.conf Created."
 echo "Launching Containers."
-sed "s#MYSQLROOTPASSWORD#"${MYSQLROOTPASSWORD}"#g" ./docker-compose.yml.tmpl > docker-compose.yml
-sed -i -e "s#MYSQLUSER#"${MYSQLUSER}"#g" ./docker-compose.yml
-sed -i -e "s#MYSQLPASSWORD#"${MYSQLPASSWORD}"#g" ./docker-compose.yml
-sed -i -e "s#DATABASENAME#"${DATABASENAME}"#g" ./docker-compose.yml
-sed -i -e "s#PROJECTNAME#"${PROJECTNAME}"#g" ./docker-compose.yml
+sed "s#MYSQLROOTPASSWORD#${MYSQLROOTPASSWORD}#g" ./docker-compose.yml.tmpl > docker-compose.yml
+sed -i -e "s#MYSQLUSER#${MYSQLUSER}#g" ./docker-compose.yml
+sed -i -e "s#MYSQLPASSWORD#${MYSQLPASSWORD}#g" ./docker-compose.yml
+sed -i -e "s#DATABASENAME#${DATABASENAME}#g" ./docker-compose.yml
+sed -i -e "s#PROJECTNAME#${PROJECTNAME}#g" ./docker-compose.yml
 rm ./docker-compose.yml-e
 
-sed "s#DATABASENAME#"${DATABASENAME}"#g" ./init_db.sql.tmpl > init_db.sql
-sed -i -e "s#SITEURL#"${LOCALURL}"#g" ./init_db.sql
-sed -i -e "s#SITETITLE#"${SITETITLE}"#g" ./init_db.sql
+sed "s#DATABASENAME#${DATABASENAME}#g" ./init_db.sql.tmpl > init_db.sql
+sed -i -e "s#SITEURL#${LOCALURL}#g" ./init_db.sql
+sed -i -e "s#SITETITLE#${SITETITLE}#g" ./init_db.sql
 rm ./init_db.sql-e
 
 docker-compose --project-name="${PROJECTNAME}" up -d
