@@ -23,7 +23,7 @@ services:
        - db
      image: registry.gitlab.com/forty4digital/wordpress-starter:latest
      ports:
-       - 14225:80
+       - LOACAL_WP_PORT:80
      restart: always
      volumes:
        - "./wp-data:/var/www/html"
