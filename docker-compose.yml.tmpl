@@ -29,7 +29,7 @@ services:
        - "./wp-data:/var/www/html"
        - "./uploads.ini:/usr/local/etc/php/conf.d/uploads.ini"
      environment:
-       - "VIRTUAL_HOST=forty4d.local,*.forty4d.local"
+       - "VIRTUAL_HOST=*.project.lan"
        - "WORDPRESS_DB_HOST=db:3306"
        - "WORDPRESS_DB_NAME=DATABASENAME"
        - "WORDPRESS_DB_USER=MYSQLUSER"
