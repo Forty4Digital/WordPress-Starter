@@ -131,7 +131,7 @@ sed -i -e "s#MYSQLUSER#${MYSQLUSER}#g" ./docker-compose.yml
 sed -i -e "s#MYSQLPASSWORD#${MYSQLPASSWORD}#g" ./docker-compose.yml
 sed -i -e "s#DATABASENAME#${DATABASENAME}#g" ./docker-compose.yml
 sed -i -e "s#PROJECTNAME#${PROJECTNAME}#g" ./docker-compose.yml
-sed -i -e "s#LOCAL_WP_PORT#${LOCAL_WP_PORT#g}" ./docker-compose.yml
+sed -i -e "s#LOCAL_WP_PORT#${LOCAL_WP_PORT}#g" ./docker-compose.yml
 rm ./docker-compose.yml-e
 
 sed "s#DATABASENAME#${DATABASENAME}#g" ./init_db.sql.tmpl > init_db.sql
